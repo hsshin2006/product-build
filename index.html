@@ -61,6 +61,27 @@
       animation: pulse 1s ease-in-out infinite;
     }
 
+    .emoji-btn {
+      margin-top: 20px;
+      padding: 14px 32px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #ff0055, #ff7700, #ffff00, #00ff88, #00cfff, #aa00ff);
+      background-size: 300%;
+      animation: rainbow 2s linear infinite;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(0,0,0,0.5);
+      box-shadow: 0 0 20px rgba(255,100,100,0.7), 0 0 40px rgba(255,100,100,0.4);
+      transition: transform 0.1s;
+    }
+
+    .emoji-btn:active {
+      transform: scale(0.92);
+    }
+
     .center-text h1 {
       font-size: 10vw;
       font-weight: 900;
@@ -116,6 +137,7 @@
 
 <div class="center-text">
   <h1>이용진 바보</h1>
+  <button class="emoji-btn" onclick="burstEmoji()">💥 눌러봐 💥</button>
 </div>
 
 <script>
@@ -156,25 +178,28 @@
 
     const left = Math.random() * 100;
     const duration = 3 + Math.random() * 5;
-    const delay = -Math.random() * duration;
 
     el.style.cssText = `
       left: ${left}%;
       animation-duration: ${duration}s;
-      animation-delay: ${delay}s;
+      animation-delay: 0s;
     `;
 
     container.appendChild(el);
-    setTimeout(() => el.remove(), (duration + Math.abs(delay)) * 1000 + 500);
+    setTimeout(() => el.remove(), duration * 1000 + 500);
+  }
+
+  function burstEmoji() {
+    for (let i = 0; i < 20; i++) {
+      setTimeout(createEmoji, i * 50);
+    }
   }
 
   // 텍스트 계속 생성
   setInterval(createText, 150);
-  setInterval(createEmoji, 400);
 
   // 초기 텍스트 뿌리기
   for (let i = 0; i < 30; i++) createText();
-  for (let i = 0; i < 10; i++) createEmoji();
 </script>
 </body>
 </html>

@@ -14,7 +14,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       color: #111;
     }
 
@@ -177,6 +176,21 @@
       color: #666;
       margin-bottom: 0;
     }
+
+    /* Disqus */
+    .comments-section {
+      width: 100%;
+      max-width: 760px;
+      padding: 48px 24px 80px;
+      border-top: 1px solid #eee;
+    }
+
+    .comments-section h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      color: #111;
+    }
   </style>
 </head>
 <body>
@@ -186,6 +200,11 @@
   <p>파트너십 및 협업 제안을 기다리고 있습니다.</p>
   <button class="btn-inquiry" onclick="openModal()">제휴문의 하기</button>
 </div>
+
+<section class="comments-section">
+  <h2>댓글</h2>
+  <div id="disqus_thread"></div>
+</section>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
   <div class="modal">
@@ -236,6 +255,18 @@
   function closeOnOverlay(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
+
+  // Disqus
+  var disqus_config = function () {
+    this.page.url = 'https://hsshin2006.github.io/product-build/';
+    this.page.identifier = 'product-build-main';
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://project-4md20mtga3.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
 
   document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
     e.preventDefault();

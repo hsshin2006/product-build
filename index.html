@@ -1,210 +1,389 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="light" data-lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TEST WEBPAGE</title>
   <style>
+    :root {
+      --bg: #f4f4f6;
+      --surface: #ffffff;
+      --surface2: #f9f9fb;
+      --border: #e8e8ed;
+      --text: #111111;
+      --text2: #555555;
+      --text3: #999999;
+      --btn-bg: #111111;
+      --btn-text: #ffffff;
+      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+      --accent1: rgba(99, 102, 241, 0.08);
+      --accent2: rgba(236, 72, 153, 0.06);
+      --accent3: rgba(16, 185, 129, 0.06);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f0f12;
+      --surface: #1a1a22;
+      --surface2: #22222e;
+      --border: #2e2e3e;
+      --text: #f0f0f4;
+      --text2: #aaaabc;
+      --text3: #666680;
+      --btn-bg: #f0f0f4;
+      --btn-text: #111111;
+      --shadow: 0 2px 16px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+      --accent1: rgba(99, 102, 241, 0.12);
+      --accent2: rgba(236, 72, 153, 0.1);
+      --accent3: rgba(16, 185, 129, 0.08);
+    }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #fff;
+      background: var(--bg);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: #111;
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      overflow-x: hidden;
     }
+
+    /* Background decorations */
+    .bg-deco {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-deco::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent1) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+    }
+
+    .bg-deco::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent2) 0%, transparent 70%);
+      bottom: 100px;
+      left: -80px;
+    }
+
+    .bg-deco-mid {
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent3) 0%, transparent 70%);
+      top: 50%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grid dot pattern */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.5;
+    }
+
+    /* All content above bg */
+    body > *:not(.bg-deco):not(.bg-deco-mid):not(.bg-grid) {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Top bar */
+    .topbar {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 16px 24px;
+      gap: 8px;
+    }
+
+    .toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow);
+      letter-spacing: 0.3px;
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--text3);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .toggle-btn .icon { font-size: 0.95rem; }
 
     /* Header */
     .site-header {
       width: 100%;
+      max-width: 800px;
       text-align: center;
-      padding: 56px 24px 40px;
-      border-bottom: 1px solid #eee;
+      padding: 24px 24px 40px;
     }
 
     .site-header h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: #111;
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--text);
     }
 
-    /* Menu Section */
-    .menu-section {
+    .site-header .subtitle {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--text3);
+      letter-spacing: 0.5px;
+    }
+
+    /* Card */
+    .card {
       width: 100%;
       max-width: 760px;
-      padding: 48px 24px 0;
+      margin: 0 24px 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text3);
+      flex-shrink: 0;
+    }
+
+    /* Menu section */
+    .menu-card {
       text-align: center;
     }
 
-    .menu-section h2 {
+    .menu-card h2 {
       font-size: 1.4rem;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
     }
 
-    .btn-menu {
+    .menu-card .menu-sub {
+      font-size: 0.9rem;
+      color: var(--text2);
+      margin-bottom: 24px;
+    }
+
+    .btn-primary {
       padding: 13px 32px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      background: #111;
-      color: #fff;
+      background: var(--btn-bg);
+      color: var(--btn-text);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: opacity 0.2s, transform 0.1s;
     }
 
-    .btn-menu:hover { background: #333; }
+    .btn-primary:hover { opacity: 0.8; }
+    .btn-primary:active { transform: scale(0.97); }
 
     /* Comments */
-    .comments-section {
-      width: 100%;
-      max-width: 760px;
-      padding: 48px 24px 40px;
-      border-top: 1px solid #eee;
-      margin-top: 48px;
-    }
+    .comments-card .card-title { margin-bottom: 28px; }
 
-    .comments-section h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 28px;
-      color: #111;
-    }
-
-    /* Inquiry Footer */
-    .inquiry-footer {
-      width: 100%;
-      max-width: 760px;
-      padding: 28px 24px 60px;
-      border-top: 1px solid #eee;
+    /* Inquiry footer card */
+    .inquiry-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      padding: 24px 32px;
+      margin-bottom: 48px;
     }
 
-    .inquiry-footer p {
+    .inquiry-card p {
       font-size: 0.85rem;
-      color: #999;
+      color: var(--text2);
     }
 
-    .btn-inquiry-sm {
+    .btn-outline {
       padding: 9px 20px;
       font-size: 0.85rem;
       font-weight: 600;
-      background: #fff;
-      color: #111;
-      border: 1px solid #ddd;
-      border-radius: 6px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
       cursor: pointer;
       white-space: nowrap;
-      transition: border-color 0.2s, color 0.2s;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .btn-inquiry-sm:hover { border-color: #111; }
+    .btn-outline:hover {
+      border-color: var(--text);
+      background: var(--surface2);
+    }
 
-    /* Modals shared */
+    /* Modal */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 100;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
       align-items: center;
       justify-content: center;
+      backdrop-filter: blur(4px);
     }
 
     .modal-overlay.active { display: flex; }
 
     .modal {
-      background: #fff;
-      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       padding: 40px;
       width: 100%;
       max-width: 480px;
       margin: 16px;
       position: relative;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      box-shadow: var(--shadow-lg);
+      transition: background 0.3s, border-color 0.3s;
     }
 
     .modal-close {
       position: absolute;
       top: 16px;
       right: 20px;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
       cursor: pointer;
-      color: #999;
-      line-height: 1;
+      color: var(--text2);
+      transition: background 0.2s;
     }
 
-    .modal-close:hover { color: #111; }
+    .modal-close:hover { background: var(--border); color: var(--text); }
 
     .modal h2 {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      color: var(--text);
     }
 
-    .modal > div > p, .modal p.sub {
-      font-size: 0.9rem;
-      color: #666;
+    .modal .modal-sub {
+      font-size: 0.875rem;
+      color: var(--text2);
       margin-bottom: 28px;
     }
 
     /* Inquiry form */
-    .form-group { margin-bottom: 18px; }
+    .form-group { margin-bottom: 16px; }
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       margin-bottom: 6px;
-      color: #333;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .form-group input,
     .form-group textarea {
       width: 100%;
       padding: 11px 14px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.9rem;
       font-family: inherit;
-      transition: border-color 0.2s;
+      background: var(--surface2);
+      color: var(--text);
+      transition: border-color 0.2s, background 0.3s;
       outline: none;
     }
 
-    .form-group input:focus,
-    .form-group textarea:focus { border-color: #111; }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--text3); }
 
-    .form-group textarea {
-      resize: vertical;
-      min-height: 110px;
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--text);
+      background: var(--surface);
     }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
 
     .btn-submit {
       width: 100%;
       padding: 13px;
-      font-size: 1rem;
-      font-weight: 600;
-      background: #111;
-      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      background: var(--btn-bg);
+      color: var(--btn-text);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      margin-top: 6px;
-      transition: background 0.2s;
+      margin-top: 8px;
+      transition: opacity 0.2s;
     }
 
-    .btn-submit:hover { background: #333; }
-    .btn-submit:disabled { background: #999; cursor: default; }
+    .btn-submit:hover { opacity: 0.8; }
+    .btn-submit:disabled { opacity: 0.4; cursor: default; }
 
     .success-msg {
       display: none;
@@ -212,64 +391,94 @@
       padding: 20px 0 4px;
     }
 
-    .success-msg .check { font-size: 2.5rem; margin-bottom: 12px; }
-    .success-msg h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
-    .success-msg p { font-size: 0.9rem; color: #666; margin-bottom: 0; }
-
-    /* Menu popup */
-    .menu-result {
-      text-align: center;
-      padding: 16px 0 8px;
-    }
-
-    .menu-result .menu-emoji {
-      font-size: 3rem;
+    .success-msg .check {
+      font-size: 2.5rem;
       margin-bottom: 12px;
     }
 
+    .success-msg h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+    .success-msg p { font-size: 0.875rem; color: var(--text2); }
+
+    /* Menu modal */
+    .menu-result { text-align: center; padding: 8px 0; }
+
+    .menu-result .menu-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+
     .menu-result .menu-name {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 800;
       margin-bottom: 8px;
+      color: var(--text);
     }
 
     .menu-result .menu-desc {
-      font-size: 0.9rem;
-      color: #666;
+      font-size: 0.875rem;
+      color: var(--text2);
       margin-bottom: 28px;
     }
 
     .btn-retry {
       padding: 11px 28px;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 600;
-      background: #f5f5f5;
-      color: #111;
-      border: none;
-      border-radius: 8px;
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
       cursor: pointer;
       transition: background 0.2s;
     }
 
-    .btn-retry:hover { background: #eee; }
+    .btn-retry:hover { background: var(--border); }
+
+    @media (max-width: 600px) {
+      .card { margin: 0 12px 20px; padding: 28px 20px; }
+      .inquiry-card { flex-direction: column; align-items: flex-start; }
+      .topbar { padding: 12px 16px; }
+    }
   </style>
 </head>
 <body>
 
+<div class="bg-grid"></div>
+<div class="bg-deco"></div>
+<div class="bg-deco-mid"></div>
+
+<!-- Top bar: language + theme toggle -->
+<div class="topbar">
+  <button class="toggle-btn" onclick="toggleLang()" id="langBtn">
+    <span class="icon">🌐</span>
+    <span id="langLabel">EN</span>
+  </button>
+  <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">
+    <span class="icon" id="themeIcon">🌙</span>
+    <span id="themeLabel">Dark</span>
+  </button>
+</div>
+
 <!-- Header -->
 <header class="site-header">
   <h1>TEST WEBPAGE</h1>
+  <p class="subtitle" data-ko="by hsshin2006" data-en="by hsshin2006">by hsshin2006</p>
 </header>
 
-<!-- 오늘 메뉴 추천 -->
-<section class="menu-section">
-  <h2>오늘 메뉴 추천</h2>
-  <button class="btn-menu" onclick="openMenuModal()">무엇을 먹을까요?</button>
-</section>
+<!-- 오늘 메뉴 추천 카드 -->
+<div class="card menu-card">
+  <h2 data-ko="오늘 메뉴 추천" data-en="Today's Menu">오늘 메뉴 추천</h2>
+  <p class="menu-sub" data-ko="오늘 점심·저녁 뭐 드실지 모르겠다면?" data-en="Not sure what to eat today?">오늘 점심·저녁 뭐 드실지 모르겠다면?</p>
+  <button class="btn-primary" onclick="openMenuModal()" data-ko="무엇을 먹을까요?" data-en="What should I eat?">무엇을 먹을까요?</button>
+</div>
 
-<!-- 댓글 -->
-<section class="comments-section">
-  <h2>댓글</h2>
+<!-- 댓글 카드 -->
+<div class="card comments-card">
+  <div class="card-title">
+    <span class="dot"></span>
+    <span data-ko="댓글" data-en="Comments">댓글</span>
+  </div>
   <div id="disqus_thread"></div>
   <script>
     var disqus_config = function () {
@@ -284,25 +493,25 @@
     })();
   </script>
   <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</section>
+</div>
 
-<!-- 제휴문의 (하단 소형) -->
-<div class="inquiry-footer">
-  <p>파트너십 및 협업 제안을 기다리고 있습니다.</p>
-  <button class="btn-inquiry-sm" onclick="openInquiryModal()">제휴문의 하기</button>
+<!-- 제휴문의 카드 (하단 소형) -->
+<div class="card inquiry-card">
+  <p data-ko="파트너십 및 협업 제안을 기다리고 있습니다." data-en="We welcome partnership and collaboration proposals.">파트너십 및 협업 제안을 기다리고 있습니다.</p>
+  <button class="btn-outline" onclick="openInquiryModal()" data-ko="제휴문의 하기" data-en="Contact Us">제휴문의 하기</button>
 </div>
 
 <!-- 메뉴 추천 모달 -->
 <div class="modal-overlay" id="menuOverlay" onclick="closeMenuOnOverlay(event)">
   <div class="modal">
-    <button class="modal-close" onclick="closeMenuModal()">&#x2715;</button>
-    <h2>오늘의 메뉴</h2>
-    <p class="sub">오늘 뭐 먹을지 골라드릴게요!</p>
-    <div class="menu-result" id="menuResult">
-      <div class="menu-emoji" id="menuEmoji"></div>
+    <button class="modal-close" onclick="closeMenuModal()">✕</button>
+    <h2 data-ko="오늘의 메뉴" data-en="Today's Pick">오늘의 메뉴</h2>
+    <p class="modal-sub" data-ko="오늘 뭐 먹을지 골라드릴게요!" data-en="Let us pick your meal for today!">오늘 뭐 먹을지 골라드릴게요!</p>
+    <div class="menu-result">
+      <span class="menu-emoji" id="menuEmoji"></span>
       <div class="menu-name" id="menuName"></div>
       <div class="menu-desc" id="menuDesc"></div>
-      <button class="btn-retry" onclick="pickMenu()">다시 뽑기</button>
+      <button class="btn-retry" onclick="pickMenu()" data-ko="다시 뽑기" data-en="Pick Again">다시 뽑기</button>
     </div>
   </div>
 </div>
@@ -310,63 +519,98 @@
 <!-- 제휴문의 모달 -->
 <div class="modal-overlay" id="inquiryOverlay" onclick="closeInquiryOnOverlay(event)">
   <div class="modal">
-    <button class="modal-close" onclick="closeInquiryModal()">&#x2715;</button>
-
+    <button class="modal-close" onclick="closeInquiryModal()">✕</button>
     <div id="formArea">
-      <h2>제휴문의</h2>
-      <p>아래 내용을 작성해 주시면 검토 후 연락드리겠습니다.</p>
-
+      <h2 data-ko="제휴문의" data-en="Partnership Inquiry">제휴문의</h2>
+      <p class="modal-sub" data-ko="아래 내용을 작성해 주시면 검토 후 연락드리겠습니다." data-en="Fill out the form and we'll get back to you.">아래 내용을 작성해 주시면 검토 후 연락드리겠습니다.</p>
       <form id="inquiryForm" action="https://formspree.io/f/mykdlngo" method="POST">
         <div class="form-group">
-          <label for="name">이름 / 회사명</label>
-          <input type="text" id="name" name="name" placeholder="홍길동 / (주)회사명" required />
+          <label data-ko="이름 / 회사명" data-en="Name / Company">이름 / 회사명</label>
+          <input type="text" id="iName" name="name" data-ko-placeholder="홍길동 / (주)회사명" data-en-placeholder="John Doe / Company Inc." placeholder="홍길동 / (주)회사명" required />
         </div>
         <div class="form-group">
-          <label for="email">이메일</label>
-          <input type="email" id="email" name="email" placeholder="example@company.com" required />
+          <label data-ko="이메일" data-en="Email">이메일</label>
+          <input type="email" id="iEmail" name="email" placeholder="example@company.com" required />
         </div>
         <div class="form-group">
-          <label for="phone">연락처 (선택)</label>
-          <input type="tel" id="phone" name="phone" placeholder="010-0000-0000" />
+          <label data-ko="연락처 (선택)" data-en="Phone (optional)">연락처 (선택)</label>
+          <input type="tel" id="iPhone" name="phone" data-ko-placeholder="010-0000-0000" data-en-placeholder="+82-10-0000-0000" placeholder="010-0000-0000" />
         </div>
         <div class="form-group">
-          <label for="message">문의 내용</label>
-          <textarea id="message" name="message" placeholder="제휴 형태, 제안 내용 등을 자유롭게 작성해 주세요." required></textarea>
+          <label data-ko="문의 내용" data-en="Message">문의 내용</label>
+          <textarea id="iMessage" name="message" data-ko-placeholder="제휴 형태, 제안 내용 등을 자유롭게 작성해 주세요." data-en-placeholder="Please describe your proposal or partnership idea." placeholder="제휴 형태, 제안 내용 등을 자유롭게 작성해 주세요." required></textarea>
         </div>
-        <button type="submit" class="btn-submit" id="submitBtn">문의 보내기</button>
+        <button type="submit" class="btn-submit" id="submitBtn" data-ko="문의 보내기" data-en="Send Message">문의 보내기</button>
       </form>
     </div>
-
     <div class="success-msg" id="successMsg">
       <div class="check">✓</div>
-      <h3>문의가 접수되었습니다</h3>
-      <p>빠른 시일 내에 이메일로 연락드리겠습니다.</p>
+      <h3 data-ko="문의가 접수되었습니다" data-en="Message Received">문의가 접수되었습니다</h3>
+      <p data-ko="빠른 시일 내에 이메일로 연락드리겠습니다." data-en="We'll contact you by email shortly.">빠른 시일 내에 이메일로 연락드리겠습니다.</p>
     </div>
   </div>
 </div>
 
 <script>
-  // 메뉴 추천
+  // ── Theme ──
+  let isDark = false;
+
+  function toggleTheme() {
+    isDark = !isDark;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+    document.getElementById('themeLabel').textContent = isDark
+      ? (currentLang === 'ko' ? '라이트' : 'Light')
+      : (currentLang === 'ko' ? '다크' : 'Dark');
+  }
+
+  // ── Language ──
+  let currentLang = 'ko';
+
+  function toggleLang() {
+    currentLang = currentLang === 'ko' ? 'en' : 'ko';
+    applyLang();
+  }
+
+  function applyLang() {
+    const isEn = currentLang === 'en';
+    document.getElementById('langLabel').textContent = isEn ? '한국어' : 'EN';
+    document.getElementById('themeLabel').textContent = isDark
+      ? (isEn ? 'Light' : '라이트')
+      : (isEn ? 'Dark' : '다크');
+
+    // data-ko / data-en text nodes
+    document.querySelectorAll('[data-ko]').forEach(el => {
+      el.textContent = isEn ? el.dataset.en : el.dataset.ko;
+    });
+
+    // placeholders
+    document.querySelectorAll('[data-ko-placeholder]').forEach(el => {
+      el.placeholder = isEn ? el.dataset.enPlaceholder : el.dataset.koPlaceholder;
+    });
+  }
+
+  // ── Menu ──
   const menus = [
-    { emoji: '🍜', name: '라면', desc: '간단하고 맛있는 국민 음식' },
-    { emoji: '🍕', name: '피자', desc: '치즈가 가득한 행복한 한 끼' },
-    { emoji: '🍣', name: '초밥', desc: '신선하고 깔끔한 일식 요리' },
-    { emoji: '🍗', name: '치킨', desc: '언제나 옳은 대한민국 국민 음식' },
-    { emoji: '🥩', name: '삼겹살', desc: '불판 위에서 익어가는 행복' },
-    { emoji: '🍛', name: '카레', desc: '향긋한 향신료의 이국적인 맛' },
-    { emoji: '🍔', name: '버거', desc: '든든하게 채워주는 한 끼' },
-    { emoji: '🥗', name: '샐러드', desc: '가볍고 건강한 선택' },
-    { emoji: '🍝', name: '파스타', desc: '다양한 소스로 즐기는 이탈리안' },
-    { emoji: '🥟', name: '만두', desc: '따뜻하고 포근한 만두 한 그릇' },
-    { emoji: '🍱', name: '도시락', desc: '알차게 구성된 도시락 한 상' },
-    { emoji: '🍜', name: '쌀국수', desc: '시원하고 담백한 베트남 스타일' },
+    { emoji: '🍜', ko: '라면',   en: 'Ramen',    descKo: '간단하고 맛있는 국민 음식',        descEn: 'Quick and satisfying noodle soup' },
+    { emoji: '🍕', ko: '피자',   en: 'Pizza',    descKo: '치즈가 가득한 행복한 한 끼',        descEn: 'Loaded with melty cheese goodness' },
+    { emoji: '🍣', ko: '초밥',   en: 'Sushi',    descKo: '신선하고 깔끔한 일식 요리',         descEn: 'Fresh and elegant Japanese cuisine' },
+    { emoji: '🍗', ko: '치킨',   en: 'Chicken',  descKo: '언제나 옳은 대한민국 국민 음식',    descEn: 'Always a great choice' },
+    { emoji: '🥩', ko: '삼겹살', en: 'BBQ Pork', descKo: '불판 위에서 익어가는 행복',         descEn: 'Sizzling happiness on the grill' },
+    { emoji: '🍛', ko: '카레',   en: 'Curry',    descKo: '향긋한 향신료의 이국적인 맛',       descEn: 'Aromatic spices, exotic flavors' },
+    { emoji: '🍔', ko: '버거',   en: 'Burger',   descKo: '든든하게 채워주는 한 끼',           descEn: 'A hearty and filling meal' },
+    { emoji: '🥗', ko: '샐러드', en: 'Salad',    descKo: '가볍고 건강한 선택',                descEn: 'Light and healthy option' },
+    { emoji: '🍝', ko: '파스타', en: 'Pasta',    descKo: '다양한 소스로 즐기는 이탈리안',     descEn: 'Italian comfort in every bite' },
+    { emoji: '🥟', ko: '만두',   en: 'Dumplings',descKo: '따뜻하고 포근한 만두 한 그릇',      descEn: 'Warm and cozy dumplings' },
+    { emoji: '🍱', ko: '도시락', en: 'Bento',    descKo: '알차게 구성된 도시락 한 상',        descEn: 'A well-balanced bento box' },
+    { emoji: '🍜', ko: '쌀국수', en: 'Pho',      descKo: '시원하고 담백한 베트남 스타일',     descEn: 'Light and refreshing Vietnamese style' },
   ];
 
   function pickMenu() {
     const pick = menus[Math.floor(Math.random() * menus.length)];
     document.getElementById('menuEmoji').textContent = pick.emoji;
-    document.getElementById('menuName').textContent = pick.name;
-    document.getElementById('menuDesc').textContent = pick.desc;
+    document.getElementById('menuName').textContent = currentLang === 'en' ? pick.en : pick.ko;
+    document.getElementById('menuDesc').textContent = currentLang === 'en' ? pick.descEn : pick.descKo;
   }
 
   function openMenuModal() {
@@ -382,7 +626,7 @@
     if (e.target === document.getElementById('menuOverlay')) closeMenuModal();
   }
 
-  // 제휴문의
+  // ── Inquiry ──
   function openInquiryModal() {
     document.getElementById('inquiryOverlay').classList.add('active');
   }
@@ -399,22 +643,23 @@
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
-    btn.textContent = '전송 중...';
+    btn.textContent = currentLang === 'en' ? 'Sending...' : '전송 중...';
 
-    const data = new FormData(this);
     const res = await fetch(this.action, {
       method: 'POST',
-      body: data,
+      body: new FormData(this),
       headers: { 'Accept': 'application/json' }
     });
 
     if (res.ok) {
       document.getElementById('formArea').style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
+      // Apply lang to success msg
+      applyLang();
     } else {
       btn.disabled = false;
-      btn.textContent = '문의 보내기';
-      alert('전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
+      btn.textContent = currentLang === 'en' ? 'Send Message' : '문의 보내기';
+      alert(currentLang === 'en' ? 'An error occurred. Please try again.' : '전송 중 오류가 발생했습니다. 다시 시도해 주세요.');
     }
   });
 </script>

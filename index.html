@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>제휴문의</title>
+  <title>TEST WEBPAGE</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,26 +17,37 @@
       color: #111;
     }
 
-    .hero {
+    /* Header */
+    .site-header {
+      width: 100%;
       text-align: center;
-      padding: 60px 24px;
+      padding: 56px 24px 40px;
+      border-bottom: 1px solid #eee;
     }
 
-    .hero h1 {
-      font-size: 2.4rem;
+    .site-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #111;
+    }
+
+    /* Menu Section */
+    .menu-section {
+      width: 100%;
+      max-width: 760px;
+      padding: 48px 24px 0;
+      text-align: center;
+    }
+
+    .menu-section h2 {
+      font-size: 1.4rem;
       font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
+      margin-bottom: 20px;
     }
 
-    .hero p {
-      font-size: 1rem;
-      color: #666;
-      margin-bottom: 36px;
-    }
-
-    .btn-inquiry {
-      padding: 14px 36px;
+    .btn-menu {
+      padding: 13px 32px;
       font-size: 1rem;
       font-weight: 600;
       background: #111;
@@ -47,11 +58,57 @@
       transition: background 0.2s;
     }
 
-    .btn-inquiry:hover {
-      background: #333;
+    .btn-menu:hover { background: #333; }
+
+    /* Comments */
+    .comments-section {
+      width: 100%;
+      max-width: 760px;
+      padding: 48px 24px 40px;
+      border-top: 1px solid #eee;
+      margin-top: 48px;
     }
 
-    /* Modal */
+    .comments-section h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 28px;
+      color: #111;
+    }
+
+    /* Inquiry Footer */
+    .inquiry-footer {
+      width: 100%;
+      max-width: 760px;
+      padding: 28px 24px 60px;
+      border-top: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .inquiry-footer p {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    .btn-inquiry-sm {
+      padding: 9px 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #fff;
+      color: #111;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-inquiry-sm:hover { border-color: #111; }
+
+    /* Modals shared */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -62,9 +119,7 @@
       justify-content: center;
     }
 
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal {
       background: #fff;
@@ -97,15 +152,14 @@
       margin-bottom: 8px;
     }
 
-    .modal p {
+    .modal > div > p, .modal p.sub {
       font-size: 0.9rem;
       color: #666;
       margin-bottom: 28px;
     }
 
-    .form-group {
-      margin-bottom: 18px;
-    }
+    /* Inquiry form */
+    .form-group { margin-bottom: 18px; }
 
     .form-group label {
       display: block;
@@ -128,9 +182,7 @@
     }
 
     .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: #111;
-    }
+    .form-group textarea:focus { border-color: #111; }
 
     .form-group textarea {
       resize: vertical;
@@ -160,47 +212,62 @@
       padding: 20px 0 4px;
     }
 
-    .success-msg .check {
-      font-size: 2.5rem;
+    .success-msg .check { font-size: 2.5rem; margin-bottom: 12px; }
+    .success-msg h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+    .success-msg p { font-size: 0.9rem; color: #666; margin-bottom: 0; }
+
+    /* Menu popup */
+    .menu-result {
+      text-align: center;
+      padding: 16px 0 8px;
+    }
+
+    .menu-result .menu-emoji {
+      font-size: 3rem;
       margin-bottom: 12px;
     }
 
-    .success-msg h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 6px;
+    .menu-result .menu-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 8px;
     }
 
-    .success-msg p {
+    .menu-result .menu-desc {
       font-size: 0.9rem;
       color: #666;
-      margin-bottom: 0;
-    }
-
-    /* Disqus */
-    .comments-section {
-      width: 100%;
-      max-width: 760px;
-      padding: 48px 24px 80px;
-      border-top: 1px solid #eee;
-    }
-
-    .comments-section h2 {
-      font-size: 1.2rem;
-      font-weight: 700;
       margin-bottom: 28px;
-      color: #111;
     }
+
+    .btn-retry {
+      padding: 11px 28px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: #f5f5f5;
+      color: #111;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-retry:hover { background: #eee; }
   </style>
 </head>
 <body>
 
-<div class="hero">
-  <h1>비즈니스 제휴 문의</h1>
-  <p>파트너십 및 협업 제안을 기다리고 있습니다.</p>
-  <button class="btn-inquiry" onclick="openModal()">제휴문의 하기</button>
-</div>
+<!-- Header -->
+<header class="site-header">
+  <h1>TEST WEBPAGE</h1>
+</header>
 
+<!-- 오늘 메뉴 추천 -->
+<section class="menu-section">
+  <h2>오늘 메뉴 추천</h2>
+  <button class="btn-menu" onclick="openMenuModal()">무엇을 먹을까요?</button>
+</section>
+
+<!-- 댓글 -->
 <section class="comments-section">
   <h2>댓글</h2>
   <div id="disqus_thread"></div>
@@ -219,9 +286,31 @@
   <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>
 
-<div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
+<!-- 제휴문의 (하단 소형) -->
+<div class="inquiry-footer">
+  <p>파트너십 및 협업 제안을 기다리고 있습니다.</p>
+  <button class="btn-inquiry-sm" onclick="openInquiryModal()">제휴문의 하기</button>
+</div>
+
+<!-- 메뉴 추천 모달 -->
+<div class="modal-overlay" id="menuOverlay" onclick="closeMenuOnOverlay(event)">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+    <button class="modal-close" onclick="closeMenuModal()">&#x2715;</button>
+    <h2>오늘의 메뉴</h2>
+    <p class="sub">오늘 뭐 먹을지 골라드릴게요!</p>
+    <div class="menu-result" id="menuResult">
+      <div class="menu-emoji" id="menuEmoji"></div>
+      <div class="menu-name" id="menuName"></div>
+      <div class="menu-desc" id="menuDesc"></div>
+      <button class="btn-retry" onclick="pickMenu()">다시 뽑기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 제휴문의 모달 -->
+<div class="modal-overlay" id="inquiryOverlay" onclick="closeInquiryOnOverlay(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeInquiryModal()">&#x2715;</button>
 
     <div id="formArea">
       <h2>제휴문의</h2>
@@ -257,16 +346,53 @@
 </div>
 
 <script>
-  function openModal() {
-    document.getElementById('modalOverlay').classList.add('active');
+  // 메뉴 추천
+  const menus = [
+    { emoji: '🍜', name: '라면', desc: '간단하고 맛있는 국민 음식' },
+    { emoji: '🍕', name: '피자', desc: '치즈가 가득한 행복한 한 끼' },
+    { emoji: '🍣', name: '초밥', desc: '신선하고 깔끔한 일식 요리' },
+    { emoji: '🍗', name: '치킨', desc: '언제나 옳은 대한민국 국민 음식' },
+    { emoji: '🥩', name: '삼겹살', desc: '불판 위에서 익어가는 행복' },
+    { emoji: '🍛', name: '카레', desc: '향긋한 향신료의 이국적인 맛' },
+    { emoji: '🍔', name: '버거', desc: '든든하게 채워주는 한 끼' },
+    { emoji: '🥗', name: '샐러드', desc: '가볍고 건강한 선택' },
+    { emoji: '🍝', name: '파스타', desc: '다양한 소스로 즐기는 이탈리안' },
+    { emoji: '🥟', name: '만두', desc: '따뜻하고 포근한 만두 한 그릇' },
+    { emoji: '🍱', name: '도시락', desc: '알차게 구성된 도시락 한 상' },
+    { emoji: '🍜', name: '쌀국수', desc: '시원하고 담백한 베트남 스타일' },
+  ];
+
+  function pickMenu() {
+    const pick = menus[Math.floor(Math.random() * menus.length)];
+    document.getElementById('menuEmoji').textContent = pick.emoji;
+    document.getElementById('menuName').textContent = pick.name;
+    document.getElementById('menuDesc').textContent = pick.desc;
   }
 
-  function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('active');
+  function openMenuModal() {
+    pickMenu();
+    document.getElementById('menuOverlay').classList.add('active');
   }
 
-  function closeOnOverlay(e) {
-    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  function closeMenuModal() {
+    document.getElementById('menuOverlay').classList.remove('active');
+  }
+
+  function closeMenuOnOverlay(e) {
+    if (e.target === document.getElementById('menuOverlay')) closeMenuModal();
+  }
+
+  // 제휴문의
+  function openInquiryModal() {
+    document.getElementById('inquiryOverlay').classList.add('active');
+  }
+
+  function closeInquiryModal() {
+    document.getElementById('inquiryOverlay').classList.remove('active');
+  }
+
+  function closeInquiryOnOverlay(e) {
+    if (e.target === document.getElementById('inquiryOverlay')) closeInquiryModal();
   }
 
   document.getElementById('inquiryForm').addEventListener('submit', async function(e) {

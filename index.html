@@ -45,13 +45,19 @@
       background: var(--bg);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       min-height: 100vh;
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+    }
+
+    .page-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      width: 100%;
       position: relative;
-      overflow-x: hidden;
+      z-index: 1;
     }
 
     /* Background decorations */
@@ -107,12 +113,6 @@
       background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
       background-size: 28px 28px;
       opacity: 0.5;
-    }
-
-    /* All content above bg */
-    body > *:not(.bg-deco):not(.bg-deco-mid):not(.bg-grid) {
-      position: relative;
-      z-index: 1;
     }
 
     /* Top bar */
@@ -270,19 +270,29 @@
       background: var(--surface2);
     }
 
-    /* Modal */
     .modal-overlay {
-      display: none;
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0,0,0,0.5);
-      z-index: 200;
+      z-index: 9999;
+      display: flex;
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(4px);
+      transition: opacity 0.2s, visibility 0.2s;
     }
 
-    .modal-overlay.active { display: flex; }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
 
     .modal {
       background: var(--surface);
@@ -448,58 +458,65 @@
 <div class="bg-deco"></div>
 <div class="bg-deco-mid"></div>
 
-<!-- Top bar: language + theme toggle -->
-<div class="topbar">
-  <button class="toggle-btn" onclick="toggleLang()" id="langBtn">
-    <span class="icon">🌐</span>
-    <span id="langLabel">EN</span>
-  </button>
-  <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">
-    <span class="icon" id="themeIcon">🌙</span>
-    <span id="themeLabel">Dark</span>
-  </button>
-</div>
+<!-- 모든 페이지 콘텐츠를 flex wrapper 안에 -->
+<div class="page-wrapper">
 
-<!-- Header -->
-<header class="site-header">
-  <h1>TEST WEBPAGE</h1>
-  <p class="subtitle" data-ko="by hsshin2006" data-en="by hsshin2006">by hsshin2006</p>
-</header>
-
-<!-- 오늘 메뉴 추천 카드 -->
-<div class="card menu-card">
-  <h2 data-ko="오늘 메뉴 추천" data-en="Today's Menu">오늘 메뉴 추천</h2>
-  <p class="menu-sub" data-ko="오늘 점심·저녁 뭐 드실지 모르겠다면?" data-en="Not sure what to eat today?">오늘 점심·저녁 뭐 드실지 모르겠다면?</p>
-  <button class="btn-primary" onclick="openMenuModal()" data-ko="무엇을 먹을까요?" data-en="What should I eat?">무엇을 먹을까요?</button>
-</div>
-
-<!-- 댓글 카드 -->
-<div class="card comments-card">
-  <div class="card-title">
-    <span class="dot"></span>
-    <span data-ko="댓글" data-en="Comments">댓글</span>
+  <!-- Top bar: language + theme toggle -->
+  <div class="topbar">
+    <button class="toggle-btn" onclick="toggleLang()" id="langBtn">
+      <span class="icon">🌐</span>
+      <span id="langLabel">EN</span>
+    </button>
+    <button class="toggle-btn" onclick="toggleTheme()" id="themeBtn">
+      <span class="icon" id="themeIcon">🌙</span>
+      <span id="themeLabel">Dark</span>
+    </button>
   </div>
-  <div id="disqus_thread"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = 'https://hsshin2006.github.io/product-build/';
-      this.page.identifier = 'product-build-main';
-    };
-    (function() {
-      var d = document, s = d.createElement('script');
-      s.src = 'https://project-4md20mtga3.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
 
-<!-- 제휴문의 카드 (하단 소형) -->
-<div class="card inquiry-card">
-  <p data-ko="파트너십 및 협업 제안을 기다리고 있습니다." data-en="We welcome partnership and collaboration proposals.">파트너십 및 협업 제안을 기다리고 있습니다.</p>
-  <button class="btn-outline" onclick="openInquiryModal()" data-ko="제휴문의 하기" data-en="Contact Us">제휴문의 하기</button>
-</div>
+  <!-- Header -->
+  <header class="site-header">
+    <h1>TEST WEBPAGE</h1>
+    <p class="subtitle" data-ko="by hsshin2006" data-en="by hsshin2006">by hsshin2006</p>
+  </header>
+
+  <!-- 오늘 메뉴 추천 카드 -->
+  <div class="card menu-card">
+    <h2 data-ko="오늘 메뉴 추천" data-en="Today's Menu">오늘 메뉴 추천</h2>
+    <p class="menu-sub" data-ko="오늘 점심·저녁 뭐 드실지 모르겠다면?" data-en="Not sure what to eat today?">오늘 점심·저녁 뭐 드실지 모르겠다면?</p>
+    <button class="btn-primary" onclick="openMenuModal()" data-ko="무엇을 먹을까요?" data-en="What should I eat?">무엇을 먹을까요?</button>
+  </div>
+
+  <!-- 댓글 카드 -->
+  <div class="card comments-card">
+    <div class="card-title">
+      <span class="dot"></span>
+      <span data-ko="댓글" data-en="Comments">댓글</span>
+    </div>
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://hsshin2006.github.io/product-build/';
+        this.page.identifier = 'product-build-main';
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://project-4md20mtga3.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+
+  <!-- 제휴문의 카드 (하단 소형) -->
+  <div class="card inquiry-card">
+    <p data-ko="파트너십 및 협업 제안을 기다리고 있습니다." data-en="We welcome partnership and collaboration proposals.">파트너십 및 협업 제안을 기다리고 있습니다.</p>
+    <button class="btn-outline" onclick="openInquiryModal()" data-ko="제휴문의 하기" data-en="Contact Us">제휴문의 하기</button>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+<!-- 모달: page-wrapper 밖, body 직속 자식 → flex 영향 없음 -->
 
 <!-- 메뉴 추천 모달 -->
 <div class="modal-overlay" id="menuOverlay" onclick="closeMenuOnOverlay(event)">

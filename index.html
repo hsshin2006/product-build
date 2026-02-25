@@ -204,6 +204,19 @@
 <section class="comments-section">
   <h2>댓글</h2>
   <div id="disqus_thread"></div>
+  <script>
+    var disqus_config = function () {
+      this.page.url = 'https://hsshin2006.github.io/product-build/';
+      this.page.identifier = 'product-build-main';
+    };
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://project-4md20mtga3.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </section>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeOnOverlay(event)">
@@ -255,18 +268,6 @@
   function closeOnOverlay(e) {
     if (e.target === document.getElementById('modalOverlay')) closeModal();
   }
-
-  // Disqus
-  var disqus_config = function () {
-    this.page.url = 'https://hsshin2006.github.io/product-build/';
-    this.page.identifier = 'product-build-main';
-  };
-  (function() {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://project-4md20mtga3.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
 
   document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
     e.preventDefault();
